@@ -17,8 +17,8 @@ import properconvey.com.br.properconvey.database.core.ProperConveyDatabase;
 public class PacienteEntity extends BaseModel {
 
         @Column(name = BaseColumns._ID, length = 11)
-        @PrimaryKey
-        String cpf;
+        @PrimaryKey (autoincrement = true)
+        Long id ;
 
         @Column
         String nome;
@@ -41,6 +41,7 @@ public class PacienteEntity extends BaseModel {
         @Column
         String crmMedico; //fk
 
-
+        @Column
+        String cpf;
 
 }
