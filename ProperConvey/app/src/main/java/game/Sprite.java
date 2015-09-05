@@ -9,7 +9,7 @@ import android.graphics.Rect;
  */
 public class Sprite {
 
-    private static final int BMP_ROWS = 4;
+    private static final int BMP_ROWS = 1;
     private static final int BMP_COLUMNS = 3;
 
     private Bitmap bmp;
@@ -22,14 +22,14 @@ public class Sprite {
     public Sprite(Bitmap bmp) {
         this.bmp = bmp;
         this.frame = 0;
-        this.width = bmp.getWidth() / BMP_ROWS;
-        this.height = bmp.getHeight() / BMP_COLUMNS;
+        this.width = bmp.getWidth() / BMP_COLUMNS;
+        this.height = bmp.getHeight() / BMP_ROWS;
 
         this.x = 10; this.y = 10;
     }
 
     private void nextFrame() {
-        frame = ++frame % BMP_ROWS;
+        frame = ++frame % BMP_COLUMNS;
     }
 
     public void onDraw (Canvas canvas) {
@@ -42,7 +42,7 @@ public class Sprite {
         Rect dst = new Rect(x, y, x + width, y + height);
 
         canvas.drawBitmap(this.bmp, src, dst, null);
-        canvas.save();
+        //canvas.save();
     }
 
 }
