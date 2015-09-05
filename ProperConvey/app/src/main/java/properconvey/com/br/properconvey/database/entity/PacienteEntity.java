@@ -16,7 +16,43 @@ import properconvey.com.br.properconvey.database.core.ProperConveyDatabase;
 @Table(databaseName = ProperConveyDatabase.NAME)
 public class PacienteEntity extends BaseModel {
 
-        @Column(name = BaseColumns._ID, length = 11)
+        public Long getId() {
+                return id;
+        }
+
+        public String getCpf() {
+                return cpf;
+        }
+
+        public String getCrmMedico() {
+                return crmMedico;
+        }
+
+        public String getSenha() {
+                return senha;
+        }
+
+        public String getUsername() {
+                return username;
+        }
+
+        public String getCep() {
+                return cep;
+        }
+
+        public String getNome() {
+                return nome;
+        }
+
+        public Long getIdDeficiencia() {
+                return idDeficiencia;
+        }
+
+        public String getRg() {
+                return rg;
+        }
+
+        @Column(name = BaseColumns._ID)
         @PrimaryKey (autoincrement = true)
         Long id ;
 
