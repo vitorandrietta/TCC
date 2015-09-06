@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import game.CanvasView;
 import properconvey.com.br.properconvey.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -12,7 +13,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(new CanvasView(this));//R.layout.activity_login);
     }
 
     @Override

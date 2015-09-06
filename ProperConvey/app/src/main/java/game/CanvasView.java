@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -18,21 +19,18 @@ import properconvey.com.br.properconvey.R;
 public class CanvasView extends SurfaceView {
 
     private Context context;
-    private Bitmap jerry;
+    private Bitmap bmp;
     private Sprite sp;
-
-    private Canvas canvas;
 
     private SurfaceHolder holder;
     private GameLoopThread gameThread;
 
-    public CanvasView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    public CanvasView(Context context) {
+        super(context);
         this.context = context;
 
         this.gameThread = new GameLoopThread(this);
         this.holder = getHolder();
-
         this.holder.addCallback(new SurfaceHolder.Callback(){
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
@@ -44,7 +42,6 @@ public class CanvasView extends SurfaceView {
             public void surfaceDestroyed(SurfaceHolder holder) {
                 boolean retry = true;
                 gameThread.setRunning(false);
-
                 while (retry) {
                     try {
                         gameThread.join();
@@ -57,29 +54,13 @@ public class CanvasView extends SurfaceView {
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
         });
 
-        this.jerry = BitmapFactory.decodeResource(getResources(), R.drawable.spritejerry);
-        this.sp = new Sprite(this.jerry);
+        this.bmp = BitmapFactory.decodeResource(getResources(), R.drawable.spritejerry);
+        this.sp = new Sprite(this.bmp);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
-        this.canvas = canvas;
-        this.canvas.drawColor(Color.WHITE);
-        this.sp.onDraw(this.canvas);
-    }
-
-    public void start() {
-        long com = System.currentTimeMillis();
-        long fim = 0;
-
-        while (true) {
-            fim = System.currentTimeMillis();
-
-            if (fim - com >= 300) {
-                com = System.currentTimeMillis();
-                sp.onDraw(this.canvas);
-            }
-        }
+        canvas.drawColor(Color.WHITE);
+        this.sp.onDraw(canvas);
     }
 }

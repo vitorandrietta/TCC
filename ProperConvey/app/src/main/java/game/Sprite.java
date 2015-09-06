@@ -13,19 +13,13 @@ public class Sprite {
     private static final int BMP_COLUMNS = 3;
 
     private Bitmap bmp;
-    private int velocity;
-
-    private int x, y;
-    private int frame;
+    private int frame = 0;
     private int width, height;
 
-    public Sprite(Bitmap bmp) {
+    public Sprite (Bitmap bmp) {
         this.bmp = bmp;
-        this.frame = 0;
         this.width = bmp.getWidth() / BMP_COLUMNS;
         this.height = bmp.getHeight() / BMP_ROWS;
-
-        this.x = 10; this.y = 10;
     }
 
     private void nextFrame() {
@@ -36,13 +30,12 @@ public class Sprite {
         this.nextFrame();
 
         int sizeX = width * frame;
-        int sizeY = 1 * height;
+        int sizeY = 0;
 
-        Rect src = new Rect(sizeX, sizeY, sizeX+ width, sizeY + height);
-        Rect dst = new Rect(x, y, x + width, y + height);
+        Rect src = new Rect(sizeX, sizeY, sizeX + width, sizeY + height);
+        Rect dst = new Rect(0, 0, width, height);
 
         canvas.drawBitmap(this.bmp, src, dst, null);
-        //canvas.save();
     }
 
 }
