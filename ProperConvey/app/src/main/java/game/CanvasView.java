@@ -55,7 +55,7 @@ public class CanvasView extends SurfaceView {
         });
 
         this.bmp = BitmapFactory.decodeResource(getResources(), R.drawable.spritejerry);
-        this.sp = new Sprite(this.bmp);
+        this.sp = new Sprite(this.bmp,this);
     }
 
     @Override
