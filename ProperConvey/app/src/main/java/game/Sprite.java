@@ -9,8 +9,9 @@ import android.graphics.Rect;
  */
 public class Sprite {
 
-    private static final int BMP_ROWS = 1;
+    private static final int BMP_ROWS = 3;
     private static final int BMP_COLUMNS = 3;
+    private static final int NORMAL_SPEED = 15;
 
     private CanvasView screen;
 
@@ -20,6 +21,7 @@ public class Sprite {
 
     private int x, y;
     private int xSpeed, ySpeed;
+    private int posOnBitmap;
 
     public Sprite (Bitmap bmp, CanvasView s) {
         this.screen = s;
@@ -28,28 +30,55 @@ public class Sprite {
         this.width = bmp.getWidth() / BMP_COLUMNS;
         this.height = bmp.getHeight() / BMP_ROWS;
 
-        this.xSpeed = 5; this.ySpeed = 5;
+        this.ySpeed = 0; this.xSpeed = NORMAL_SPEED;
         this.x = 10; this.y = 10;
+        this.posOnBitmap = 0;
     }
 
     private void nextFrame() {
         frame = ++frame % BMP_COLUMNS;
 
-        if (this.x + this.width > this.screen.getWidth() || this.x - 5 < 0)
-            xSpeed = -xSpeed;
+        //não sair da tela, código
+        //if (this.x + this.width > this.screen.getWidth() || this.x - 5 < 0)
+        //    xSpeed = -xSpeed;
+        //if (this.y + this.height > this.screen.getHeight() || this.y - 5 < 0)
+        //    ySpeed = -ySpeed;
 
-        if (this.y + this.height > this.screen.getHeight() || this.y - 5 < 0)
-            ySpeed = -ySpeed;
+        if (this.xSpeed > 0)
+            this.posOnBitmap = 1;
+        else if (this.xSpeed < 0)
+            this.posOnBitmap = 2;
+
+        if (this.ySpeed != 0)
+            this.posOnBitmap = 0;
 
         this.x += this.xSpeed;
         this.y += this.ySpeed;
+    }
+
+    public void moveRight() {
+        this.ySpeed = 0;
+        this.xSpeed = NORMAL_SPEED;
+    }
+    public void moveLeft() {
+        this.ySpeed = 0;
+        this.xSpeed = -NORMAL_SPEED;
+    }
+
+    public void moveTop() {
+        this.ySpeed = -NORMAL_SPEED;
+        this.xSpeed = 0;
+    }
+    public void moveBottom() {
+        this.y = NORMAL_SPEED;
+        this.xSpeed = 0;
     }
 
     public void onDraw (Canvas canvas) {
         this.nextFrame();
 
         int sizeX = width * frame;
-        int sizeY = 0;
+        int sizeY = posOnBitmap * this.height;
 
         Rect src = new Rect(sizeX, sizeY, sizeX + width, sizeY + height);
         Rect dst = new Rect(this.x, this.y, width + this.x, height + this.y);
@@ -57,4 +86,8 @@ public class Sprite {
         canvas.drawBitmap(this.bmp, src, dst, null);
     }
 
+    public int getX() {return this.x;}
+    public int getY() {return this.y;}
+    public int getWidth() {return this.width;}
+    public int getHeight() {return this.height;}
 }

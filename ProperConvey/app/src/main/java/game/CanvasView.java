@@ -19,8 +19,8 @@ import properconvey.com.br.properconvey.R;
 public class CanvasView extends SurfaceView {
 
     private Context context;
-    private Bitmap bmp;
     private Sprite sp;
+    private Background background;
 
     private SurfaceHolder holder;
     private GameLoopThread gameThread;
@@ -54,13 +54,18 @@ public class CanvasView extends SurfaceView {
             public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
         });
 
-        this.bmp = BitmapFactory.decodeResource(getResources(), R.drawable.spritejerry);
-        this.sp = new Sprite(this.bmp,this);
+
+        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.jerrysprite);
+        this.sp = new Sprite(bmp,this);
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.floresta);
+        this.background = new Background(bmp, this);
     }
 
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawColor(Color.WHITE);
+
+        this.background.onDraw(canvas);
         this.sp.onDraw(canvas);
     }
 }

@@ -13,7 +13,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(new CanvasView(this));//R.layout.activity_login);
+        setContentView(new CanvasView(this));
+        getSupportActionBar().hide();
     }
 
     @Override
