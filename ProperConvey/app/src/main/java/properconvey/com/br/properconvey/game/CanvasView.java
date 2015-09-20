@@ -13,7 +13,7 @@ import java.util.List;
 
 import properconvey.com.br.properconvey.R;
 import properconvey.com.br.properconvey.fases.Fase;
-import properconvey.com.br.properconvey.fases.FaseFlorestaLaranja;
+import properconvey.com.br.properconvey.faseFloresta.FaseFlorestaLaranja;
 
 /**
  * Created by root on 05/09/15.
@@ -28,6 +28,7 @@ public class CanvasView extends SurfaceView {
     private GameLoopThread gameThread;
 
     private List<Coordenada> c;
+    private List<SpriteMove> spm;
     private Fase ffl;
 
     public CanvasView(Context context) {
@@ -65,6 +66,9 @@ public class CanvasView extends SurfaceView {
 
         this.c = new ArrayList<Coordenada>();
         this.c.add(new Coordenada(100,100));
+        this.spm = new ArrayList<SpriteMove>();
+        this.spm.add(new SpriteMove(this.c, this.jerry));
+
         this.ffl = new FaseFlorestaLaranja(this, BitmapFactory.decodeResource(getResources(), R.drawable.floresta));
 
     }
@@ -74,7 +78,7 @@ public class CanvasView extends SurfaceView {
     }
 
     public void animarParteFase(Fase faseAtual, List<Coordenada> c, Canvas canvas) {
-        faseAtual.animarExercicio(c, this.jerry, canvas);
+        faseAtual.animarExercicio(c, this.spm, canvas);
     }
 
     @Override
@@ -82,7 +86,7 @@ public class CanvasView extends SurfaceView {
 
         canvas.drawColor(Color.WHITE);
 
-        this.ffl.animarExercicio(this.c, this.jerry, canvas);
+        this.ffl.animarExercicio(this.c, this.spm, canvas);
 
         this.jerry.onDraw(canvas);
     }

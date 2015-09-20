@@ -30,6 +30,7 @@ public class Jerry extends Sprite {
 
     @Override
     public void stay() {
+        super.stay();
         this.setPosOnBitmap(3);
     }
 }
