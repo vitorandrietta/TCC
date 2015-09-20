@@ -73,6 +73,11 @@ public class CanvasView extends SurfaceView {
         l.add(new Coordenada(300, 300));
         spm.add(new SpriteMove(l, new Jerry(bmp, this, 500, 500)));
 
+        List<Coordenada> l1 = new ArrayList<Coordenada>();
+        l1.add(new Coordenada(300, 400));
+        spm.add(new SpriteMove(l1, new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.orange),
+                this, 1, 4, 5, 300, 300)));
+
         this.ffl = new FaseFlorestaLaranja(this, BitmapFactory.decodeResource(getResources(), R.drawable.floresta));
 
     }
