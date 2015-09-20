@@ -21,7 +21,7 @@ import properconvey.com.br.properconvey.fases.FaseFlorestaLaranja;
 public class CanvasView extends SurfaceView {
 
     private Context context;
-    private Sprite sp;
+    private Jerry jerry;
     private Background background;
 
     private SurfaceHolder holder;
@@ -61,7 +61,7 @@ public class CanvasView extends SurfaceView {
 
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.outrojerry);
-        this.sp = new Sprite(bmp,this);
+        this.jerry = new Jerry(bmp,this, 10, 10);
 
         this.c = new ArrayList<Coordenada>();
         this.c.add(new Coordenada(100,100));
@@ -74,7 +74,7 @@ public class CanvasView extends SurfaceView {
     }
 
     public void animarParteFase(Fase faseAtual, List<Coordenada> c, Canvas canvas) {
-        faseAtual.animarExercicio(c, this.sp, canvas);
+        faseAtual.animarExercicio(c, this.jerry, canvas);
     }
 
     @Override
@@ -82,8 +82,8 @@ public class CanvasView extends SurfaceView {
 
         canvas.drawColor(Color.WHITE);
 
-        this.ffl.animarExercicio(this.c, this.sp, canvas);
+        this.ffl.animarExercicio(this.c, this.jerry, canvas);
 
-        this.sp.onDraw(canvas);
+        this.jerry.onDraw(canvas);
     }
 }
