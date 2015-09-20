@@ -1,9 +1,9 @@
 package properconvey.com.br.properconvey.fases;
 
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 
-import game.CanvasView;
+import properconvey.com.br.properconvey.game.Background;
+import properconvey.com.br.properconvey.game.CanvasView;
 
 /**
  * Created by root on 20/09/15.
@@ -11,12 +11,13 @@ import game.CanvasView;
 public class FaseBase {
 
     private CanvasView screen;
-    private Canvas canvas;
+    private Background background;
+    private int move;
 
-    public FaseBase(CanvasView screen, Canvas canvas, Bitmap fundo) {
+    public FaseBase(CanvasView screen, Bitmap fundo) {
         this.screen = screen;
-        this.canvas = canvas;
-        this.screen.setBackground(fundo);
+        this.background = new Background(fundo, screen);
+        this.move= 0;
     }
 
     public CanvasView getScreen() {
@@ -27,11 +28,19 @@ public class FaseBase {
         this.screen = screen;
     }
 
-    public Canvas getCanvas() {
-        return canvas;
+    public Background getBackground() {
+        return background;
     }
 
-    public void setCanvas(Canvas canvas) {
-        this.canvas = canvas;
+    public void setBackground(Background background) {
+        this.background = background;
+    }
+
+    public int getMove() {
+        return move;
+    }
+
+    public void incMove() {
+        this.move++;
     }
 }

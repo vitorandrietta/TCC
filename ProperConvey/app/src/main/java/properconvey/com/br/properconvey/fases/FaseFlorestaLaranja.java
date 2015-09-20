@@ -5,9 +5,9 @@ import android.graphics.Canvas;
 
 import java.util.List;
 
-import game.CanvasView;
-import game.Coordenada;
-import game.Sprite;
+import properconvey.com.br.properconvey.game.CanvasView;
+import properconvey.com.br.properconvey.game.Coordenada;
+import properconvey.com.br.properconvey.game.Sprite;
 
 
 /**
@@ -15,36 +15,27 @@ import game.Sprite;
  */
 public class FaseFlorestaLaranja extends FaseBase implements Fase {
 
-    public FaseFlorestaLaranja(CanvasView screen, Canvas canvas, Bitmap fundo) {
-        super(screen, canvas,fundo);
+    public FaseFlorestaLaranja(CanvasView screen,  Bitmap fundo) {
+        super(screen, fundo);
     }
 
     @Override
-    public void animarExercicio(List<Coordenada> pontos, Sprite jerry) {
+    public void animarExercicio(List<Coordenada> pontos, Sprite jerry, Canvas canvas) {
         // praticar uma animação com as coordenadas
 
-        for (Coordenada c : pontos) {
-            jerry.moveBottom();
-            //this.getScreen().onDraw(this.getCanvas());
+        this.getBackground().onDraw(canvas);
 
-            while (true) {
-                if (c.getY() < jerry.getY()) {
-                    if (c.getX() < jerry.getX()) {
-                        jerry.moveLeft();
-                    } else {
-                        jerry.moveRight();
-                    }
-
-                    break;
-                }
-            }
-
-            while (true)
-                if (c.getX() == jerry.getX())
-                    break;
-
+        if (this.getMove() == pontos.size()-1) {
             jerry.stay();
+            return;
         }
+
+        Coordenada c = pontos.get(this.getMove());
+
+        jerry.moveToPosition(c);
+
+        if (jerry.isInPostion(c))
+            this.incMove();
 
         //desenha em canvasView
     }

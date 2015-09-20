@@ -1,4 +1,4 @@
-package game;
+package properconvey.com.br.properconvey.game;
 
 import android.graphics.Canvas;
 

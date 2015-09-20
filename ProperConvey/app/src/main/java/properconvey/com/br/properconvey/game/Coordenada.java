@@ -1,4 +1,4 @@
-package game;
+package properconvey.com.br.properconvey.game;
 
 /**
  * Created by root on 20/09/15.

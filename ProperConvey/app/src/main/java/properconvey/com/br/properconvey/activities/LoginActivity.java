@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import game.CanvasView;
+import properconvey.com.br.properconvey.game.CanvasView;
 import properconvey.com.br.properconvey.R;
 
 public class LoginActivity extends AppCompatActivity {
