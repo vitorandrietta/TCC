@@ -7,6 +7,8 @@ import java.util.List;
  */
 public class SpriteMove {
 
+    // acopla as coordenadas com o sprite que se movimenta a partir delas
+
     private List<Coordenada> pontos;
     private Sprite sp;
     private int posAtual;

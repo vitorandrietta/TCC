@@ -9,14 +9,19 @@ import android.graphics.Rect;
  */
 public class Sprite {
 
+    // variavel com a referencia para a View
     private CanvasView screen;
 
+    // biitmap com a image,
     private Bitmap bmp;
     private int frame = 0;
     private int width, height;
 
+    // controle de posições e velocidades em x e y
     private int x, y;
     private int xSpeed, ySpeed;
+
+    // a linha do bitmap que será usada para a animacao
     private int posOnBitmap;
 
     private int row, col, normalSpeed;
@@ -39,6 +44,7 @@ public class Sprite {
         this.posOnBitmap = 0;
     }
 
+    // atualiza o frame da animacao, bem como as posicoes x e y
     public void nextFrame() {
         frame = ++frame % this.col;
 
@@ -46,6 +52,7 @@ public class Sprite {
         this.y += this.ySpeed;
     }
 
+    // métodos para movimentação comum
     public void moveRight() {
         this.ySpeed = 0;
         this.xSpeed = this.normalSpeed;
@@ -63,12 +70,12 @@ public class Sprite {
         this.ySpeed = this.normalSpeed;
         this.xSpeed = 0;
     }
-
     public void stay() {
         this.ySpeed = 0;
         this.xSpeed = 0;
     }
 
+    // checagem para ver se aquela coordenada já foi atingida
     public boolean isInPostion(Coordenada ponto) {
         boolean xExpected = false;
         boolean yExpected = false;
@@ -82,6 +89,7 @@ public class Sprite {
         return (xExpected && yExpected);
     }
 
+    // checagem para ver se aquele x ou y já foi atingido
     private boolean isInPos(int pos, boolean isX) {
         if (isX)
             return (this.x >= pos && this.xSpeed > 0) ||
@@ -92,6 +100,7 @@ public class Sprite {
 
     }
 
+    // move o sprite para aquela coordenada
     public void moveToPosition(Coordenada ponto) {
 
         if (this.y < ponto.getY())

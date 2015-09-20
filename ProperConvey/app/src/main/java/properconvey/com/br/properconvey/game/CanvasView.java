@@ -22,13 +22,18 @@ public class CanvasView extends SurfaceView {
 
     private Context context;
     private Jerry jerry;
-    private Background background;
 
+    // contém o canvas da surfaceView
     private SurfaceHolder holder;
+
+    //game Thread é o objeto que controla a thread de UI
     private GameLoopThread gameThread;
 
     private List<Coordenada> c;
     private List<SpriteMove> spm;
+
+    // variável de controle da interface de fase atual, posteriomente
+    // a ser passada por parâmetro no construtor
     private Fase ffl;
 
     public CanvasView(Context context) {
@@ -37,7 +42,7 @@ public class CanvasView extends SurfaceView {
 
         this.gameThread = new GameLoopThread(this);
         this.holder = getHolder();
-        this.holder.addCallback(new SurfaceHolder.Callback(){
+        this.holder.addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
                 gameThread.setRunning(true);
@@ -52,12 +57,14 @@ public class CanvasView extends SurfaceView {
                     try {
                         gameThread.join();
                         retry = false;
-                    } catch (InterruptedException e) {}
+                    } catch (InterruptedException e) {
+                    }
                 }
             }
 
             @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) { }
+            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+            }
         });
 
 
@@ -67,29 +74,20 @@ public class CanvasView extends SurfaceView {
         this.c = new ArrayList<Coordenada>();
         this.c.add(new Coordenada(100,100));
         this.spm = new ArrayList<SpriteMove>();
-        this.spm.add(new SpriteMove(this.c, this.jerry));
+        this.spm.add(new SpriteMove(this.c, jerry));
 
-        List<Coordenada> l = new ArrayList<Coordenada>();
-        l.add(new Coordenada(300, 300));
-        spm.add(new SpriteMove(l, new Jerry(bmp, this, 500, 500)));
+        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.orange);
+        this.spm.add(new SpriteMove(null, new Sprite(bmp, this, 1, 4, 5, 350, 420)));
 
-        List<Coordenada> l1 = new ArrayList<Coordenada>();
-        l1.add(new Coordenada(300, 400));
-        spm.add(new SpriteMove(l1, new Sprite(BitmapFactory.decodeResource(getResources(), R.drawable.orange),
-                this, 1, 4, 5, 300, 300)));
-
+        // para testes na faseFloresta, mudar posteriormente
         this.ffl = new FaseFlorestaLaranja(this, BitmapFactory.decodeResource(getResources(), R.drawable.floresta));
-
-    }
-
-    public void setBackground(Bitmap bmp) {
-        this.background = new Background(bmp, this);
     }
 
     public void animarParteFase(Fase faseAtual, List<SpriteMove> spm, Canvas canvas) {
         faseAtual.animarExercicio(spm, canvas);
     }
 
+    // método que é chamado na Thread de UI para atualizar a tela
     @Override
     public void onDraw(Canvas canvas) {
 
