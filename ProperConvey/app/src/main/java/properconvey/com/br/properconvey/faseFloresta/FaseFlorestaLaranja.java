@@ -20,8 +20,6 @@ import properconvey.com.br.properconvey.game.SpriteMove;
  */
 public class FaseFlorestaLaranja extends FaseBase implements Fase {
 
-    private List<SpriteMove> spm;
-
     public FaseFlorestaLaranja(CanvasView screen, Bitmap fundo) {
         super(screen, fundo);
 
