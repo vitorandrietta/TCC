@@ -19,9 +19,9 @@ public class Sprite {
     private int frame = 0;
     private int width, height;
 
-    private int x, y;
-    private int xSpeed, ySpeed;
-    private int posOnBitmap;
+    private volatile int x, y;
+    private volatile int xSpeed, ySpeed;
+    private volatile int posOnBitmap;
 
     public Sprite (Bitmap bmp, CanvasView s) {
         this.screen = s;
@@ -30,7 +30,7 @@ public class Sprite {
         this.width = bmp.getWidth() / BMP_COLUMNS;
         this.height = bmp.getHeight() / BMP_ROWS;
 
-        this.ySpeed = 0; this.xSpeed = NORMAL_SPEED;
+        this.ySpeed = 0; this.xSpeed = 0;
         this.x = 10; this.y = 10;
         this.posOnBitmap = 0;
     }
@@ -70,7 +70,7 @@ public class Sprite {
         this.xSpeed = 0;
     }
     public void moveBottom() {
-        this.y = NORMAL_SPEED;
+        this.ySpeed = NORMAL_SPEED;
         this.xSpeed = 0;
     }
 

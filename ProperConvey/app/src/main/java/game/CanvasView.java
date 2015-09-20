@@ -11,7 +11,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import properconvey.com.br.properconvey.R;
+import properconvey.com.br.properconvey.fases.FaseFlorestaLaranja;
 
 /**
  * Created by root on 05/09/15.
@@ -24,6 +28,9 @@ public class CanvasView extends SurfaceView {
 
     private SurfaceHolder holder;
     private GameLoopThread gameThread;
+
+    private List<Coordenada> c;
+    private FaseFlorestaLaranja ffl;
 
     public CanvasView(Context context) {
         super(context);
@@ -57,10 +64,15 @@ public class CanvasView extends SurfaceView {
 
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.outrojerry);
         this.sp = new Sprite(bmp,this);
-        bmp = BitmapFactory.decodeResource(getResources(), R.drawable.floresta);
-        this.background = new Background(bmp, this);
 
-        this.sp.stay();
+        this.c = new ArrayList<Coordenada>();
+        this.c.add(new Coordenada(100,100));
+        this.ffl = new FaseFlorestaLaranja(this, null,BitmapFactory.decodeResource(getResources(), R.drawable.floresta));
+        ffl.animarExercicio(c, this.sp);
+    }
+
+    public void setBackground(Bitmap bmp) {
+        this.background = new Background(bmp, this);
     }
 
     @Override
