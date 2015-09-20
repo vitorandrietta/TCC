@@ -70,20 +70,45 @@ public class Sprite {
     }
 
     public boolean isInPostion(Coordenada ponto) {
-        return (this.x >= ponto.getX() && this.y >= ponto.getY());
+        boolean xExpected = false;
+        boolean yExpected = false;
+
+        xExpected = (this.x >= ponto.getX() && this.xSpeed > 0) ||
+                    (this.x <= ponto.getX() && this.xSpeed < 0);
+
+        yExpected = (this.y >= ponto.getY() && this.ySpeed > 0) ||
+                    (this.y <= ponto.getY() && this.ySpeed < 0);
+
+        return (xExpected && yExpected);
+    }
+
+    private boolean isInPos(int pos, boolean isX) {
+        if (isX)
+            return (this.x >= pos && this.xSpeed > 0) ||
+                    (this.x <= pos && this.xSpeed < 0);
+
+        return (this.y >= pos && this.ySpeed > 0) ||
+                (this.y <= pos && this.ySpeed < 0);
+
     }
 
     public void moveToPosition(Coordenada ponto) {
-        if (this.y >= ponto.getY()) {
+
+        if (this.y < ponto.getY())
+            this.moveBottom();
+
+        if (this.y > ponto.getY())
+            this.moveTop();
+
+        if (this.isInPos(ponto.getY(), false)) {
             if (this.x < ponto.getX()) {
                 this.moveRight();
             } else {
                 this.moveLeft();
             }
-        } else
-            this.moveBottom();
+        }
 
-        if (this.x >= ponto.getX())
+        if (this.isInPos(ponto.getX(), true))
             this.stay();
     }
 

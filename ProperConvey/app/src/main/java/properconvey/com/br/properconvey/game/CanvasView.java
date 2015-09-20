@@ -69,6 +69,10 @@ public class CanvasView extends SurfaceView {
         this.spm = new ArrayList<SpriteMove>();
         this.spm.add(new SpriteMove(this.c, this.jerry));
 
+        List<Coordenada> l = new ArrayList<Coordenada>();
+        l.add(new Coordenada(300, 300));
+        spm.add(new SpriteMove(l, new Jerry(bmp, this, 500, 500)));
+
         this.ffl = new FaseFlorestaLaranja(this, BitmapFactory.decodeResource(getResources(), R.drawable.floresta));
 
     }
@@ -77,8 +81,8 @@ public class CanvasView extends SurfaceView {
         this.background = new Background(bmp, this);
     }
 
-    public void animarParteFase(Fase faseAtual, List<Coordenada> c, Canvas canvas) {
-        faseAtual.animarExercicio(c, this.spm, canvas);
+    public void animarParteFase(Fase faseAtual, List<SpriteMove> spm, Canvas canvas) {
+        faseAtual.animarExercicio(spm, canvas);
     }
 
     @Override
@@ -86,8 +90,9 @@ public class CanvasView extends SurfaceView {
 
         canvas.drawColor(Color.WHITE);
 
-        this.ffl.animarExercicio(this.c, this.spm, canvas);
+        this.ffl.animarExercicio(this.spm, canvas);
 
-        this.jerry.onDraw(canvas);
+        for (SpriteMove s : this.spm)
+            s.getSp().onDraw(canvas);
     }
 }
