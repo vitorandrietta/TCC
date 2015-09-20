@@ -9,7 +9,7 @@ import android.graphics.Rect;
  */
 public class Sprite {
 
-    private static final int BMP_ROWS = 3;
+    private static final int BMP_ROWS = 5;
     private static final int BMP_COLUMNS = 3;
     private static final int NORMAL_SPEED = 15;
 
@@ -72,6 +72,12 @@ public class Sprite {
     public void moveBottom() {
         this.y = NORMAL_SPEED;
         this.xSpeed = 0;
+    }
+
+    public void stay() {
+        this.ySpeed = 0;
+        this.xSpeed = 0;
+        this.posOnBitmap = 3;
     }
 
     public void onDraw (Canvas canvas) {
