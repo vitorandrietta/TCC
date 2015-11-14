@@ -140,4 +140,8 @@ public class Sprite {
     public int getWidth() {return this.width;}
     public int getHeight() {return this.height;}
     public void setPosOnBitmap(int pos) { this.posOnBitmap = pos;}
+
+    public void handsUp(){
+        this.stay();
+    }
 }

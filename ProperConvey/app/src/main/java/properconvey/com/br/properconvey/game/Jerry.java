@@ -33,4 +33,10 @@ public class Jerry extends Sprite {
         super.stay();
         this.setPosOnBitmap(3);
     }
+
+    @Override
+    public void handsUp() {
+        super.handsUp();
+        setPosOnBitmap(4);
+    }
 }

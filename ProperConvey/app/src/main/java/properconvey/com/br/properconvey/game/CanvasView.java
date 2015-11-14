@@ -22,6 +22,23 @@ public class CanvasView extends SurfaceView {
 
     private Context context;
     private Jerry jerry;
+    private Sprite laranja;
+    private Jerry jk;
+    public Sprite getLaranja() {
+        return laranja;
+    }
+
+    public void setLaranja(Sprite laranja) {
+        this.laranja = laranja;
+    }
+
+    public Jerry getJerry() {
+        return jerry;
+    }
+
+    public void setJerry(Jerry jerry) {
+        this.jerry = jerry;
+    }
 
     // contém o canvas da surfaceView
     private SurfaceHolder holder;
@@ -76,15 +93,20 @@ public class CanvasView extends SurfaceView {
         this.spm = new ArrayList<SpriteMove>();
         this.spm.add(new SpriteMove(this.c, jerry));
 
+
         bmp = BitmapFactory.decodeResource(getResources(), R.drawable.orange);
-        this.spm.add(new SpriteMove(null, new Sprite(bmp, this, 1, 4, 5, 350, 420)));
+        this.laranja = new Sprite(bmp, this, 1, 4, 5, 350, 420);
+        this.spm.add(new SpriteMove(null,laranja) );
 
         // para testes na faseFloresta, mudar posteriormente
         this.ffl = new FaseFlorestaLaranja(this, BitmapFactory.decodeResource(getResources(), R.drawable.floresta));
+
     }
 
-    public void animarParteFase(Fase faseAtual, List<SpriteMove> spm, Canvas canvas) {
-        faseAtual.animarExercicio(spm, canvas);
+    public void animarParteFase(Fase faseAtual, List<SpriteMove> spm, Canvas canvas, Jerry j) {
+        this.spm = spm;
+        jk = j;
+        faseAtual.animarExercicio(spm, canvas,j);
     }
 
     // método que é chamado na Thread de UI para atualizar a tela
@@ -93,7 +115,7 @@ public class CanvasView extends SurfaceView {
 
         canvas.drawColor(Color.WHITE);
 
-        this.ffl.animarExercicio(this.spm, canvas);
+        this.ffl.animarExercicio(this.spm, canvas,jk);
 
         for (SpriteMove s : this.spm)
             s.getSp().onDraw(canvas);

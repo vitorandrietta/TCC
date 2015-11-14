@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import java.util.List;
 
 import properconvey.com.br.properconvey.game.Coordenada;
+import properconvey.com.br.properconvey.game.Jerry;
 import properconvey.com.br.properconvey.game.Sprite;
 import properconvey.com.br.properconvey.game.SpriteMove;
 
@@ -13,5 +14,5 @@ import properconvey.com.br.properconvey.game.SpriteMove;
  */
 
 public interface Fase {
-    public abstract void animarExercicio(List<SpriteMove> objects, Canvas canvas);
+    public abstract void animarExercicio(List<SpriteMove> objects, Canvas canvas, Jerry j);
 }

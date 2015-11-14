@@ -28,7 +28,7 @@ public class FaseFlorestaLaranja extends FaseBase implements Fase {
     // o método abaixo implementa a animação de um exercício, movendo todos
     // os sprites conforme suas listas de coordenadas
     @Override
-    public void animarExercicio(List<SpriteMove> objects, Canvas canvas) {
+    public void animarExercicio(List<SpriteMove> objects, Canvas canvas, Jerry j) {
         // praticar uma animação com as coordenadas
 
         this.getBackground().onDraw(canvas);
@@ -38,7 +38,8 @@ public class FaseFlorestaLaranja extends FaseBase implements Fase {
                 continue;
 
             if (spm.getPosAtual() == spm.getPontos().size() ) {
-                spm.getSp().stay();
+                spm.getSp().handsUp();
+
                 continue;
             }
 
@@ -47,7 +48,12 @@ public class FaseFlorestaLaranja extends FaseBase implements Fase {
 
             if (spm.getSp().isInPostion(c))
                 spm.incPosAtual();
+
+
+
+
         }
+
 
     }
 }
