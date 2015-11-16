@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity implements
     private static final String KWS_SEARCH = "wakeup";
     private MediaPlayer player;
     private static final String MENU_SEARCH = "menu";
+
     //lista de frases que mudam com o exercício;
     private static final String KEYPHRASE = "orange";
     private CanvasView canvasView;
@@ -48,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_login);
         this.canvasView = new CanvasView(this);
         setContentView(canvasView);
-
         getSupportActionBar().hide();
 
 

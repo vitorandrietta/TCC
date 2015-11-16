@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import properconvey.com.br.properconvey.fases.Fase;
 import properconvey.com.br.properconvey.fases.FaseBase;
@@ -42,6 +43,7 @@ public class FaseFlorestaLaranja extends FaseBase implements Fase {
 
                 continue;
             }
+
 
             Coordenada c = spm.getPontos().get(spm.getPosAtual());
             spm.getSp().moveToPosition(c);
