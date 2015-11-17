@@ -27,6 +27,8 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <data android:mimeType="application/vnd.google-apps.audio" />
+                <data android:mimeType="application/vnd.google-apps.file" />
+
             </intent-filter>
         </activity>
     </application>
