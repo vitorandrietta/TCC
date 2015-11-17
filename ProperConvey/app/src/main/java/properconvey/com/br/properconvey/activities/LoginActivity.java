@@ -70,14 +70,16 @@ public class LoginActivity extends AppCompatActivity implements
                 new AsyncTask<Void, Void, Void>(){
                     @Override
                     protected Void doInBackground(Void... params) {
-                        fala.startListening(recognizerIntent);
-                        return null;
+                        if(!LoginActivity.this.state) {
+                            fala.startListening(recognizerIntent);
+                        }
+                            return null;
                     }
                 }.doInBackground();
             }
         });
 
-        player.start(); //audio falando laranja ao inves de orange
+        player.start(); //audio falando laranja ao invés de orange
 
 ;
 
@@ -172,11 +174,32 @@ public class LoginActivity extends AppCompatActivity implements
         }
 
         else{
-            //audio do try again;
+
+        MediaPlayer mpr =    MediaPlayer.create(this, R.raw.diga_laranja);
+        mpr.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                new AsyncTask<Void, Void, Void>(){
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        if(!LoginActivity.this.state) {
+                            fala.startListening(recognizerIntent);
+                        }
+                        return  null;
+                    }
+                }.doInBackground();
+            }
+        });
+
+
+        mpr.start();
+
 
         }
 
-        fala.startListening(recognizerIntent);
+        //fala.startListening(recognizerIntent);
 
     }
 
