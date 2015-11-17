@@ -2,26 +2,23 @@ package properconvey.com.br.properconvey.activities;
 
 
 import static android.widget.Toast.makeText;
-import static edu.cmu.pocketsphinx.SpeechRecognizerSetup.defaultSetup;
-import java.io.File;
-import java.io.IOException;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
+import android.content.ContentResolver;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognitionListener;
+import android.speech.RecognizerIntent;
+import android.speech.SpeechRecognizer;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-import android.widget.Toast;
-import edu.cmu.pocketsphinx.Assets;
-import edu.cmu.pocketsphinx.Hypothesis;
-import edu.cmu.pocketsphinx.RecognitionListener;
-import edu.cmu.pocketsphinx.SpeechRecognizer;
+import android.util.Log;
+
 import properconvey.com.br.properconvey.R;
 import properconvey.com.br.properconvey.faseFloresta.FaseFlorestaLaranja;
 import properconvey.com.br.properconvey.game.CanvasView;
@@ -33,16 +30,17 @@ public class LoginActivity extends AppCompatActivity implements
         RecognitionListener {
 
     /* Named searches allow to quickly reconfigure the decoder */
-    private static final String KWS_SEARCH = "wakeup";
-    private MediaPlayer player;
-    private static final String MENU_SEARCH = "menu";
 
-    //lista de frases que mudam com o exercício;
-    private static final String KEYPHRASE = "orange";
+
+    private SpeechRecognizer fala = null;
+    private Intent recognizerIntent;
+    private String LOG_TAG = "VoiceRecognitionActivity";
+     private  String KEYPHRASE1 = "laranja";
+    private MediaPlayer player;
     private CanvasView canvasView;
     private boolean state = false;
 
-    private SpeechRecognizer recognizer;
+
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
@@ -51,59 +49,94 @@ public class LoginActivity extends AppCompatActivity implements
         setContentView(canvasView);
         getSupportActionBar().hide();
 
+        fala = SpeechRecognizer.createSpeechRecognizer(this);
+        fala.setRecognitionListener(this);
+        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "pt");
 
-            new AsyncTask<Void, Void, Exception>() {
-            @Override
-            protected Exception doInBackground(Void... params) {
-                try {
-                    Assets assets = new Assets(LoginActivity.this);
-                    File assetDir = assets.syncAssets();
-                    setupRecognizer(assetDir);
-                } catch (IOException e) {
-                    return e;
-                }
-                return null;
-            }
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                this.getPackageName());
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
 
-            @Override
-            protected void onPostExecute(Exception result) {
-                if (result != null) {
-                } else {
-                    //KWS SEARCH
-                }
-            }
-        }.execute();
 
+        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
 
         player=MediaPlayer.create(this,R.raw.intro);
+
         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                switchSearch(KWS_SEARCH);
+                new AsyncTask<Void, Void, Void>(){
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        fala.startListening(recognizerIntent);
+                        return null;
+                    }
+                }.doInBackground();
             }
         });
 
-        player.start();
+        player.start(); //audio falando laranja ao inves de orange
 
 ;
 
     }
 
+
+
+
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        recognizer.cancel();
-        recognizer.shutdown();
+    public void onPartialResults(Bundle partialResults) {
+        Log.i(LOG_TAG, "onPartialResults");
+    }
+
+    @Override
+    public void onEvent(int eventType, Bundle params) {
+        Log.i(LOG_TAG, "onEvent");
     }
 
 
     @Override
-    public void onPartialResult(Hypothesis hypothesis) {
-        if (hypothesis == null)
-            return;
+    public void onReadyForSpeech(Bundle params) {
+        Log.i(LOG_TAG, "onReadyForSpeech");
+    }
 
-        String text = hypothesis.getHypstr();
-        if (text.equals(KEYPHRASE)) {
+    @Override
+    public void onBeginningOfSpeech() {
+        Log.i(LOG_TAG, "onBeginningOfSpeech");
+    }
+
+    @Override
+    public void onRmsChanged(float rmsdB) {
+        Log.i(LOG_TAG, "onRmsChanged: " + rmsdB);
+    }
+
+    @Override
+    public void onBufferReceived(byte[] buffer) {
+        Log.i(LOG_TAG, "onBufferReceived: " + buffer);
+    }
+
+    @Override
+    public void onEndOfSpeech() {
+        Log.i(LOG_TAG, "onEndOfSpeech");
+    }
+
+    @Override
+    public void onError(int error) {
+        //...
+    }
+
+
+    @Override
+    public void onResults(Bundle results) {
+
+        ArrayList<String> matches = results
+                .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
+        ContentResolver contentResolver = getContentResolver();
+
+
+        if (matches.get(0).equalsIgnoreCase(KEYPHRASE1)) {
 
 
             List<SpriteMove> sprites = new ArrayList<SpriteMove>();
@@ -135,74 +168,29 @@ public class LoginActivity extends AppCompatActivity implements
             }
 
             state = true;
-
-            //switchSearch(MENU_SEARCH);
+            return;
         }
 
-    }
+        else{
+            //audio do try again;
 
-
-    @Override
-    public void onResult(Hypothesis hypothesis) {
-        //((TextView) findViewById(R.id.result_text)).setText("");
-        if (hypothesis != null) {
-            String text = hypothesis.getHypstr();
-            makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
         }
-    }
 
-    @Override
-    public void onBeginningOfSpeech() {
-    }
+        fala.startListening(recognizerIntent);
 
-    /**
-     * We stop recognizer here to get a final result
-     */
-    @Override
-    public void onEndOfSpeech() {
-        if (!recognizer.getSearchName().equals(KWS_SEARCH))
-            switchSearch(KWS_SEARCH);
     }
-
-    private void switchSearch(String searchName) {
-        recognizer.stop();
-        if (searchName.equals(KWS_SEARCH))
-            recognizer.startListening(searchName);
-        else
-         recognizer.startListening(searchName, 10000);
 
 
     }
 
-    private void setupRecognizer(File assetsDir) throws IOException {
 
 
-        recognizer = defaultSetup()
-                .setAcousticModel(new File(assetsDir, "en-us-ptm"))
-                .setDictionary(new File(assetsDir, "cmudict-en-us.dict"))
-                .setRawLogDir(assetsDir)
-                .setKeywordThreshold(1e-28f)
-                .setBoolean("-allphone_ci", true)
-                .getRecognizer();
-        recognizer.addListener(this);
-
-        recognizer.addKeyphraseSearch(KWS_SEARCH, KEYPHRASE);
-        File menuGrammar = new File(assetsDir, "menu.gram");
-        File digitsGrammar = new File(assetsDir, "digits.gram");
-
-    }
-
-    @Override
-    public void onError(Exception error) {
-
-    }
-
-    @Override
-    public void onTimeout() {
-        switchSearch(KWS_SEARCH);
-    }
 
 
-}
+
+
+
+
+
 
 
