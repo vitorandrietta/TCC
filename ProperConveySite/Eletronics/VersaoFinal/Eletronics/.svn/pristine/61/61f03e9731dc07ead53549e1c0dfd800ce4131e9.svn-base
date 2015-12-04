@@ -1,0 +1,60 @@
+﻿<?xml version="1.0"?>
+<configuration>
+  <appSettings>
+    <add key="aspnet:UseTaskFriendlySynchronizationContext" value="true" />
+  </appSettings>
+  <system.web>
+    <compilation debug="true" targetFramework="4.5" />
+    <httpRuntime targetFramework="4.5"/>
+  </system.web>
+  <system.serviceModel>
+    <bindings>
+      <webHttpBinding>
+        <binding name="webHttpBinding_ISupplierService">
+
+        </binding>
+      </webHttpBinding>
+    </bindings>
+    <services>
+      <service
+        name="SupplierService.SupplierService">
+        <endpoint address="SupplierServices"
+                    binding="webHttpBinding"
+                    contract="SupplierService.ISupplierService"
+                    behaviorConfiguration="JSONBehavior"
+                  />
+      </service>
+    </services>
+    <behaviors>
+      <endpointBehaviors>
+        <behavior name="JSONBehavior">
+          <webHttp defaultOutgoingResponseFormat="Json"/>
+        </behavior>
+      </endpointBehaviors>
+      <serviceBehaviors>
+        <behavior>
+          <!-- To avoid disclosing metadata information, set the values below to false before deployment -->
+          <serviceMetadata httpGetEnabled="true" httpsGetEnabled="true"/>
+          <!-- To receive exception details in faults for debugging purposes, set the value below to true.  Set to false before deployment to avoid disclosing exception information -->
+          <serviceDebug includeExceptionDetailInFaults="true"/>
+        </behavior>
+      </serviceBehaviors>
+    </behaviors>
+    <protocolMapping>
+      <add binding="basicHttpsBinding" scheme="https" />
+    </protocolMapping>
+    <serviceHostingEnvironment aspNetCompatibilityEnabled="true" multipleSiteBindingsEnabled="true" />
+  </system.serviceModel>
+  <system.webServer>
+    <modules runAllManagedModulesForAllRequests="true"/>
+    <!--
+        To browse web app root directory during debugging, set the value below to true.
+        Set to false before deployment to avoid disclosing web app folder information.
+      -->
+    <directoryBrowse enabled="true"/>
+  </system.webServer>
+  <connectionStrings>
+    <add name="DBCLIENT" connectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\treino_C#\Eletronicos\DBCLIENT.mdf;Integrated Security=True;Connect Timeout=30" providerName="System.Data.SqlClient" />
+    <add name="DBSUPPLIER" connectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\treino_C#\Eletronicos\DBSUPPLIER.mdf;Integrated Security=True;Connect Timeout=30" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+</configuration>

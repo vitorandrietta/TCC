@@ -1,0 +1,25 @@
+﻿<div class="menu">
+    <div class="menu-itens">
+        <nav class="navbar navbar-default">
+            <div class="container">
+
+                
+                    <img src="@Url.Content("~/Images/logo.jpg")" class="logo" />
+                
+
+                <ul class="menu-navegacao navbar-right">
+                    <li><a href="#">@Html.ActionLink("Faça Sua Compra", "ProductList", "Purchase")</a></li>
+                    <li><a href="#">@Html.ActionLink("Compras Anteriores", "MyPurchases", "Purchase")</a></li>
+                    <li><a href="#">@Html.ActionLink("Sair", "LogOff")</a></li>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+
+    <div class="container">
+        <div class="jumbotron">
+           <center><h2>Bem vindo à Eletronics Company</h2></center>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<nav class="navbar navbar-default">
+		<div class="container">
+			<img src="logo.png" alt="" class="logo">
+			<ul class="menu-navegacao navbar-right">
+				<li class="dropdown"><a href="#" data-toggle="dropdown"
+					class="dropdown-toggle">Aluno<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="alunoCadastro.html">Adicionar Aluno</a></li>
+						<li><a href="aluno.html">Alunos</a></li>
+					</ul></li>
+				<li class="dropdown"><a href="#" data-toggle="dropdown"
+					class="dropdown-toggle">Responsável<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<li><a href="CadastroResponsavel.html">Adicionar Responsável</a></li>
+						<li><a href="responsavel.html">Responsáveis</a></li>
+					</ul></li>
+			</ul>
+		</div>
+	</nav>
+
+
+<div class="container jumbotron text-center">
+		<h1>Alunos da escola Raízes</h1>
+	</div>

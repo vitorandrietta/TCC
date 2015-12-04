@@ -1,0 +1,85 @@
+﻿@model  Eletronics.WEB.Models.ChangeSupplierModel
+@{
+    WebGrid grid = new WebGrid(Model.Suppliers, rowsPerPage: 10);//Model.Clients
+    //foreach()
+}
+<div class="principal">
+    <div class="container">
+        
+        <center><h2>Consultar Fornecedores</h2></center>
+        <div class="consulta-fornecedor">
+            <br />
+            <form role="form">
+
+                <div class="form-group">
+                    <label for="txtcnpj">CNPJ:</label>
+                    <input type="text" id="txtcnpj" class="cnpj form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtcorporationname">Nome da corporação:</label>
+                    <input type="text" id="txtcorporationname" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="combotipofornecedor">Tipo:</label>
+                    <select id="combotipofornecedor" class="form-control">
+                        <option></option>
+                        @foreach (var supplierType in Model.SupplierTypes)
+                        {
+                            <option value="@supplierType.SupplierTypeID">@supplierType.SupplierTypeDescription</option>
+                        }
+                    </select>
+                </div>
+
+                <br /><br /><button class="limpar btn btn-default">Limpar</button>
+                <button class="pesquisar btn btn-primary">Pesquisar</button>
+
+            </form>
+            <br />
+            <br />
+            <center>
+                <div class="gridConteudo">
+                    @grid.GetHtml(tableStyle: "webGrid",
+            headerStyle: "header",
+            alternatingRowStyle: "alt",
+            selectedRowStyle: "select", columns: grid.Columns(grid.Column("CorporateName", "Nome da corporação"), grid.Column("CNPJ", "CNPJ"), grid.Column("SupplierTypeDescription", "Descrição do tipo do fornecedor")))
+
+                </div>
+            </center>
+            <div class="consulta-fornecedor">
+                <br />
+                <form role="form">
+
+                    <div class="form-group">
+                        <label for="txteditarcnpj">CNPJ:</label>
+                        <input type="text" id="txteditarcnpj" class="cnpj form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txteditarcorporationname">Nome da corporação:</label>
+                        <input type="text" id="txteditarcorporationname" class="form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editarcombotipofornecedor">Tipo:</label>
+                        <select id="editarcombotipofornecedor" class="form-control" disabled>
+                            <option></option>
+                            @foreach (var supplierType in Model.SupplierTypes)
+                            {
+                                <option value="@supplierType.SupplierTypeID">@supplierType.SupplierTypeDescription</option>
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    @Scripts.Render("~/Supplier/crud")
+    <br />
+
+</div>

@@ -1,0 +1,46 @@
+﻿@model IList<Eletronics.WEB.Models.ClientTypeScreenModel>
+
+<div class="principal">
+
+
+    <div class="container">
+        <center><h2>Cadastro de Clientes</h2></center>
+        <div class="cadastro-clientes">
+            <br />
+            <form role="form">
+
+                <div class="form-group">
+                    <label for="txtnome">Nome:</label>
+                    <input type="text" id="txtnome" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtrg">RG:</label>
+                    <input type="text" id="txtrg" class="rg form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtcpf">CPF:</label>
+                    <input type="text" id="txtcpf" class="cpf form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="combotipocliente">Tipo:</label>
+                    <select id="combotipoCliente" class="form-control">
+                        <option></option>
+                        @foreach (var clientType in Model)
+                        {
+                            <option value="@clientType.ClientTypeID">@clientType.ClientTypeDescription</option>
+                        }
+                    </select>
+                </div>
+                <button class="limpar btn btn-default">Limpar</button>
+                <button class="salvar btn btn-success">Salvar</button>
+            </form>
+        </div>
+        
+        <script src="~/Scripts/jquery.mask.min.js"></script>
+        @Scripts.Render("~/Cliente/crud")
+    </div>
+</div>
+<br />

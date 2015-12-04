@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+ <connectionStrings>
+    <add name="DBCLIENT" connectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\treino_C#\Eletronicos\DBCLIENT.mdf;Integrated Security=True;Connect Timeout=30" providerName="System.Data.SqlClient" />
+    <add name="DBSUPPLIER" connectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=D:\treino_C#\Eletronicos\DBSUPPLIER.mdf;Integrated Security=True;Connect Timeout=30" providerName="System.Data.SqlClient" />
+</connectionStrings>
+</configuration>

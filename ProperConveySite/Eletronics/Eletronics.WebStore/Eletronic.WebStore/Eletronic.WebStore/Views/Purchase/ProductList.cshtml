@@ -1,0 +1,98 @@
+﻿@model EletronicStore.WEB.Models.PageVM
+<div class="menu">
+    <div class="menu-itens">
+        <nav class="navbar navbar-default">
+            <div class="container">
+
+
+                <img src="@Url.Content("~/Images/logo.jpg")" class="logo" />
+
+
+                <ul class="menu-navegacao navbar-right">
+                    <li><a href="#">@Html.ActionLink("Faça Sua Compra", "ProductList", "Purchase")</a></li>
+                    <li><a href="#">@Html.ActionLink("Compras Anteriores", "MyPurchases", "Purchase")</a></li>
+                    <li><a href="#">@Html.ActionLink("Sair", "LogOff")</a></li>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+</div>
+
+
+<center><h2>Lista de produtos:</h2></center>
+
+@{
+
+    if (!(@Model.products != null && @Model.products.Any()))
+    {
+        <div class="container">
+            <div class="jumbotron">
+                <center><h2>Nenhum produto disponível</h2></center>
+            </div>
+        </div>
+    }
+
+    else
+    {
+
+        int cont = 0; //block orientation to make css corrections
+        <div id="forms">
+            <div class="container">
+                <div class="row">
+                    @foreach (var product in Model.products)
+                    {
+                        ++cont;
+                        if (cont % 3 == 0)
+                        {
+                            @Html.Raw("</div>")
+                            @Html.Raw("</br>")
+                            @Html.Raw("<div class='row'>")
+                        }
+
+
+                        <div id="block-@cont" role="form" class="productForm col-md-6 col-xs-6 col-lg-6 col-sm-6">
+
+                            <div name="name">
+                                Nome:<span class="text">@product.ProductName</span>
+                            </div>
+
+                            <div name="supplier">
+                                Fornecedor:<span class="text">@product.SupplierName</span>
+                            </div>
+
+                            <div name="quantity" class="form-group">
+                                <label for="quantity-@cont">Quantidade:</label>
+                                <input type="number" max="@product.AvaiableQuantity" min="1" name="product_quantity" id="quantity-@cont" class="form-control" />
+                            </div>
+
+                            <input type="button" value="Comprar" class="comprar btn btn-primary" productid="@product.ProductID" />
+                        </div>
+
+
+                    }
+                </div>
+            </div>
+            <ul class="pagination">
+                @for (int page = 1; page <= @Model.TotalOfPages; page++)
+                {
+                    if (page == @Model.currentPage)
+                    {
+                        <li class="active"><a href="#">@page</a></li>
+                    }
+
+                    else
+                    {
+                        <li>@Html.ActionLink(Convert.ToString(page), "PageChange", "Purchase", new { pageNumber = page }, null)</li>
+                    }
+                }
+            </ul>
+        </div>
+    }
+}
+
+<script src="~/Scripts/Purchase/MakePurchase.js"></script>
+
+
+
+

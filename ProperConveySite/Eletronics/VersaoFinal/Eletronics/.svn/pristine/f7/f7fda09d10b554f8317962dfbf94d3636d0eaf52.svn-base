@@ -1,0 +1,136 @@
+﻿namespace SupplierService.Business
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using Eletronicos.Data;
+    using Eletronicos.Model;
+    using Eletronics.Infrastructure;
+
+    /// <summary>
+    /// A class that make the necessary validation for Supplier information, and is wrapper for SupplierDAO class methods
+    /// </summary>
+    public class SupplierBO
+    {
+        /// <summary>
+        /// A member that represents  a data access object for Supplier information
+        /// </summary>
+        private SupplierDAO supplierDAO = new SupplierDAO();
+
+        /// <summary>
+        ///  A member that represents  a data access object for Supplier Type information
+        /// </summary>
+        private SupplierTypeDAO supplierTypeDAO = new SupplierTypeDAO();
+
+        /// <summary>
+        /// validate the attributes of the supplier and if everything is ok, the supplier will be inserted
+        /// </summary>
+        /// <param name="supplier">the supplier to be inserted inserted the supplier table of the database</param>
+        public void Add(Supplier supplier)
+        {
+            //try
+            //{
+                if (this.supplierTypeDAO.FindTypeDescription(supplier.SupplierTypeID) == null)
+                {
+                    throw new ApplicationException("The ID of the Supplier Type Doesn't Exists");
+                }
+
+                if (!Validator.IsCNPJ(supplier.CNPJ))
+                {
+                    throw new ApplicationException("The CNPJ is invalid");
+                }
+
+                if (this.supplierDAO.Find(supplier) != null)
+                {
+                    throw new ApplicationException("A supplier with this CNPJ already exists");
+                }
+
+                supplier.CNPJ = supplier.CNPJ.Replace(".", string.Empty).Replace("-", string.Empty).Replace("/", string.Empty);
+                this.supplierDAO.Insert(supplier);
+            //}
+            //catch (Exception e)
+            //{
+                //throw e;
+            //}
+        }
+
+        /// <summary>
+        /// deletes the row of the table that corresponds to the primary key of the parameter
+        /// </summary>
+        /// <param name="supplier">represents the model that gonna be deleted from the database table</param>
+        public void Remove(Supplier supplier)
+        {
+            try
+            {
+                this.supplierDAO.Delete(supplier);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// validate the attributes of the supplier and if everything is ok, Update a specific row of a table using the reference of the primary key
+        /// </summary>
+        /// <param name="supplier">represents the model that gonna be Updated from the database table</param>
+        public void Update(Supplier supplier)
+        {
+            try
+            {
+                if (this.supplierDAO.Find(supplier) == null)
+                {
+                    throw new ApplicationException("The informed the Supplier Doesn't Exists");
+                }
+
+                if (this.supplierTypeDAO.FindTypeDescription(supplier.SupplierTypeID) == null)
+                {
+                    throw new ApplicationException("The ID of the Supplier Type Doesn't Exists");
+                }
+
+                supplier.CNPJ = supplier.CNPJ.Replace(".", string.Empty).Replace("-", string.Empty).Replace("/", string.Empty);
+                this.supplierDAO.Update(supplier);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Returns the wanted Supplier
+        /// </summary>
+        /// <param name="supplier">A Supplier containing the primary key to be used in the search</param>
+        /// <returns>a Register that corresponds to the primary key passed in the parameter object</returns>
+        public Supplier Find(Supplier supplier)
+        {
+            try
+            {
+                return this.supplierDAO.Find(supplier);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Return all Registers of the Client table in the database
+        /// </summary>
+        /// <returns> A List object where all data is stored</returns>
+        public IList<Supplier> FindAll()
+        {
+            try
+            {
+                return this.supplierDAO.FindAll();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        
+    }
+}

@@ -1,0 +1,95 @@
+﻿@model Eletronics.WEB.Models.ChangeClientModel
+@{
+    WebGrid grid = new WebGrid(Model.Clients, rowsPerPage: 10);
+}
+<div class="principal">
+    <div class="container">
+        <center><h2>Excluir Clientes</h2></center>
+        <div class="cadastro-clientes">
+            <br />
+            <form role="form">
+
+                <div class="form-group">
+                    <label for="txtnome">Nome:</label>
+                    <input type="text" id="txtnome" class="nome form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtrg">RG:</label>
+                    <input type="text" id="txtrg" class="rg form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="txtcpf">CPF:</label>
+                    <input type="text" id="txtcpf" class="cpf form-control" />
+                </div>
+
+                <div class="form-group">
+                    <label for="combotipocliente">Tipo:</label>
+                    <select id="combotipoCliente" class="form-control">
+                        <option></option>
+                        @foreach (var clientType in Model.ClientTypes)
+                        {
+                            <option value="@clientType.ClientTypeID">@clientType.ClientTypeDescription</option>
+                        }
+                    </select>
+                </div>
+
+                <button class="limpar btn btn-default">Limpar</button>
+                <button class="pesquisar btn btn-primary">Pesquisar</button>
+            </form>
+            <br />
+            <br />
+            <center>
+                <div class="gridConteudo">
+                    @grid.GetHtml(tableStyle: "webGrid",
+            headerStyle: "header",
+            alternatingRowStyle: "alt",
+            selectedRowStyle: "select", columns: grid.Columns(grid.Column("FirstName", "Nome"),
+            grid.Column("LastName", "Sobrenome"), grid.Column("CPF", "CPF"), grid.Column("RG", "RG"),
+            grid.Column("ClientTypeDescription", "Descrição do tipo de cliente")));
+                </div>
+            </center>
+
+            <div class="cadastro-clientes">
+                <br />
+                <form role="form">
+
+                    <div class="form-group">
+                        <label for="txteditarnome">Nome:</label>
+                        <input type="text" id="txteditarnome" class="nome form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txteditarrg">RG:</label>
+                        <input type="text" id="txteditarrg" class="rg form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txteditarcpf">CPF:</label>
+                        <input type="text" id="txteditarcpf" class="cpf form-control" disabled />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editarcombotipocliente">Tipo:</label>
+                        <select id="editarcombotipoCliente" class="form-control" disabled>
+                            <option></option>
+                            @foreach (var clientType in Model.ClientTypes)
+                            {
+                                <option value="@clientType.ClientTypeID">@clientType.ClientTypeDescription</option>
+                            }
+                        </select>
+                    </div>
+                    <button class="limparModificar btn btn-default">Limpar</button>
+                    <button class="excluir btn btn-danger">Confirmar exclusão de registro</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <br />
+    <script src="~/Scripts/jquery.mask.min.js"></script>
+    @Scripts.Render("~/Cliente/crud")
+
+
+</div>

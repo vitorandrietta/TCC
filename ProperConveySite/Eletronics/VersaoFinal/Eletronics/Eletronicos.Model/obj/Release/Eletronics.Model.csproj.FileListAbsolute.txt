@@ -1,0 +1,4 @@
+D:\treino_C#\Eletronics\Eletronicos.Model\bin\Release\Eletronicos.Model.dll
+D:\treino_C#\Eletronics\Eletronicos.Model\bin\Release\Eletronicos.Model.pdb
+D:\treino_C#\Eletronics\Eletronicos.Model\obj\Release\Eletronicos.Model.dll
+D:\treino_C#\Eletronics\Eletronicos.Model\obj\Release\Eletronicos.Model.pdb

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="SupplierService" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:50821/SupplierService.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:50821/SupplierService.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://localhost:50821/SupplierService.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/Eletronicos.Model" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ISupplierService_Insert_InputMessage">
+    <wsdl:part name="parameters" element="tns:Insert" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Insert_OutputMessage">
+    <wsdl:part name="parameters" element="tns:InsertResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Delete_InputMessage">
+    <wsdl:part name="parameters" element="tns:Delete" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Delete_OutputMessage">
+    <wsdl:part name="parameters" element="tns:DeleteResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Update_InputMessage">
+    <wsdl:part name="parameters" element="tns:Update" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Update_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindAllSuppliers_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindAllSuppliers" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindAllSuppliers_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindAllSuppliersResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Find_InputMessage">
+    <wsdl:part name="parameters" element="tns:Find" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_Find_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindAllSupplierTypes_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindAllSupplierTypes" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindAllSupplierTypes_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindAllSupplierTypesResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindTypeDescription_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindTypeDescription" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindTypeDescription_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindTypeDescriptionResponse" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindSuppliersByFilter_InputMessage">
+    <wsdl:part name="parameters" element="tns:FindSuppliersByFilter" />
+  </wsdl:message>
+  <wsdl:message name="ISupplierService_FindSuppliersByFilter_OutputMessage">
+    <wsdl:part name="parameters" element="tns:FindSuppliersByFilterResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ISupplierService">
+    <wsdl:operation name="Insert">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/Insert" message="tns:ISupplierService_Insert_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/InsertResponse" message="tns:ISupplierService_Insert_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Delete">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/Delete" message="tns:ISupplierService_Delete_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/DeleteResponse" message="tns:ISupplierService_Delete_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Update">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/Update" message="tns:ISupplierService_Update_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/UpdateResponse" message="tns:ISupplierService_Update_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindAllSuppliers">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/FindAllSuppliers" message="tns:ISupplierService_FindAllSuppliers_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/FindAllSuppliersResponse" message="tns:ISupplierService_FindAllSuppliers_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="Find">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/Find" message="tns:ISupplierService_Find_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/FindResponse" message="tns:ISupplierService_Find_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindAllSupplierTypes">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/FindAllSupplierTypes" message="tns:ISupplierService_FindAllSupplierTypes_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/FindAllSupplierTypesResponse" message="tns:ISupplierService_FindAllSupplierTypes_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindTypeDescription">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/FindTypeDescription" message="tns:ISupplierService_FindTypeDescription_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/FindTypeDescriptionResponse" message="tns:ISupplierService_FindTypeDescription_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="FindSuppliersByFilter">
+      <wsdl:input wsaw:Action="http://tempuri.org/ISupplierService/FindSuppliersByFilter" message="tns:ISupplierService_FindSuppliersByFilter_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/ISupplierService/FindSuppliersByFilterResponse" message="tns:ISupplierService_FindSuppliersByFilter_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:service name="SupplierService" />
+</wsdl:definitions>

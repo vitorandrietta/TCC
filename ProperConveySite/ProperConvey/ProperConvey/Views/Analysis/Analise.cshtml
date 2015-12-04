@@ -1,0 +1,27 @@
+﻿@model IList<string>
+@{
+    ViewBag.Title = "Analise";
+    int cont = 0;
+}
+
+<link href="~/Content/morris.css" rel="stylesheet" />
+<script src="~/Scripts/raphel-min.js"></script>
+<script src="~/Scripts/morris.min.js"></script>
+<script src="~/Scripts/montaGraficos.js"></script>
+<center><h1>Analise (Tentativa por intervalo de tempo em milisegundos)</h1></center>
+<br />
+<br />
+<hr />    
+<!--ppcn_Exer1_NOME_"+(Math.floor(Math.random()*10)+1)+"-"+errorCount+tentativeTimes-->
+@foreach(string titulo in Model){
+    string[] s = titulo.Split('_');
+    cont++;
+    <center> 
+        <h2><button class="btn btn-success">Ouvir Áudio</button>&nbsp;&nbsp;@(s[1]):@(s[2])</h2>
+        <div id="@cont" name="@s[3]"  width="300" height="300">
+        </div>
+    </center>
+  
+    <hr />    
+}
+

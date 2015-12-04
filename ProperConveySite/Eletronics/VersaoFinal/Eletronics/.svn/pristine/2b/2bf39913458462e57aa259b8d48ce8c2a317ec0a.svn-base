@@ -1,0 +1,53 @@
+﻿namespace ClientService.Business
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
+    using Eletronicos.Data;
+    using Eletronicos.Model;
+    
+    /// <summary>
+    /// A class that is wrapper for ClientTypeDAO class methods
+    /// </summary>
+    public class ClientTypeBO
+    {
+        /// <summary>
+        ///  A member that represents a data access object for supplier type information
+        /// </summary>
+        private ClientTypeDAO clientTypeDAO = new ClientTypeDAO();
+
+        /// <summary>
+        /// Returns the wanted ClientType Description
+        /// </summary>
+        /// <param name="clientTypeID">the primary key to be used in the search</param>
+        /// <returns>a Register that corresponds to the primary key passed in the parameter</returns>
+        public string FindDescription(int clientTypeID)
+        {
+            try
+            {
+                return this.clientTypeDAO.FindTypeDescription(clientTypeID);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        /// <summary>
+        /// Return all Registers of the ClientType table in the database
+        /// </summary>
+        /// <returns> A List object where all data is stored</returns>
+        public IList<ClientType> FindAll()
+        {
+            try
+            {
+                return this.clientTypeDAO.FindAll();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+    }
+}

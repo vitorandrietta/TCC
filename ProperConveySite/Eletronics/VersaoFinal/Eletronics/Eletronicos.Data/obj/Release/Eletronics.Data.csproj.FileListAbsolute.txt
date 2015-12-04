@@ -1,0 +1,8 @@
+D:\treino_C#\Eletronics\Eletronicos.Data\bin\Release\Eletronicos.Data.dll.config
+D:\treino_C#\Eletronics\Eletronicos.Data\bin\Release\Eletronicos.Data.dll
+D:\treino_C#\Eletronics\Eletronicos.Data\bin\Release\Eletronicos.Data.pdb
+D:\treino_C#\Eletronics\Eletronicos.Data\bin\Release\Eletronicos.Model.dll
+D:\treino_C#\Eletronics\Eletronicos.Data\bin\Release\Eletronicos.Model.pdb
+D:\treino_C#\Eletronics\Eletronicos.Data\obj\Release\Eletronics.Data.csprojResolveAssemblyReference.cache
+D:\treino_C#\Eletronics\Eletronicos.Data\obj\Release\Eletronicos.Data.dll
+D:\treino_C#\Eletronics\Eletronicos.Data\obj\Release\Eletronicos.Data.pdb

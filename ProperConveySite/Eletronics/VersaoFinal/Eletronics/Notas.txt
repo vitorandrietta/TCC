@@ -1,0 +1,11 @@
+1)fazer stypecop
+
+2)arrumar SUpplierDAO -> incluindo newton Json soft
+
+3)arrumar proc de update de produto QUANTIDADE NAO ESTA SENDO AFETADA - DONE
+
+4)rever método find da compra supplier ID ta como int na proc -> mas é varchar(15) 
+
+5)Organização de arquivo e stylecop
+
+6)DEPOIS QUE DELETAR A COMPRA TEM QUE AUMENTAR O NÚMERO DE  DISPONÍVEL DO RESPECTIVO PRODUTO

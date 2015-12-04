@@ -52,45 +52,55 @@ public class LoginActivity extends AppCompatActivity implements
         RecognitionListener,GoogleApiClient.OnConnectionFailedListener {
 
     /* Named searches allow to quickly reconfigure the decoder */
-
+    //FAZER CONTADOR SUPERIOR E TELA DE LOGIN
 
     private SpeechRecognizer fala = null;
     private Intent recognizerIntent;
+    public final static String EXERCISE_NAME ="Exercise1";
     private String LOG_TAG = "VoiceRecognitionActivity";
     private  String KEYPHRASE1 = "laranja";
     private MediaPlayer player;
-    private int errorCount =0;
+    private int tentativas =1;
     private CanvasView canvasView;
     private boolean state = false;
     private GoogleApiClient googleApiClient;
     private final static  int RESOLVE_CONNECTION_REQUEST_CODE=6789;
+    private final static int SPEAK_REQUEST_CODE = 8967;
+    private List<Long> timeIntervals;
+    private long intialTime;
+    private String nome;
 
     @Override
     public void onCreate(Bundle state) {
 
+
+        super.onCreate(state);
+        this.canvasView = new CanvasView(this);
+        Intent intent = getIntent();
+        this.nome = intent.getStringExtra(FirstAcitvity.INICIO_GAME);
+        setContentView(canvasView);
+        getSupportActionBar().hide();
+        this.timeIntervals = new ArrayList<>();
         this.googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Drive.API)
                 .addScope(Drive.SCOPE_FILE)
                 .addOnConnectionFailedListener(this)
                 .build();
 
-        super.onCreate(state);
-        setContentView(R.layout.activity_login);
-        this.canvasView = new CanvasView(this);
-        setContentView(canvasView);
-        getSupportActionBar().hide();
-
         fala = SpeechRecognizer.createSpeechRecognizer(this);
         fala.setRecognitionListener(this);
+
         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/AMR");
-        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO", true);
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "pt");
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
                 this.getPackageName());
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
 
+        //OW
+        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/AMR");
+        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO", true);
+        //OW
 
         recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
 
@@ -103,7 +113,10 @@ public class LoginActivity extends AppCompatActivity implements
                     @Override
                     protected Void doInBackground(Void... params) {
                         if(!LoginActivity.this.state) {
-                            fala.startListening(recognizerIntent);
+
+                            startActivityForResult(recognizerIntent,SPEAK_REQUEST_CODE);
+                            intialTime = System.currentTimeMillis();
+                            //fala.startListening(recognizerIntent);
                         }
                             return null;
                     }
@@ -162,131 +175,6 @@ public class LoginActivity extends AppCompatActivity implements
     @Override
     public void onResults(Bundle results) {
 
-        ArrayList<String> matches = results
-                .getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
-        ContentResolver contentResolver = getContentResolver();
-
-
-        if (matches.get(0).equalsIgnoreCase(KEYPHRASE1)) {
-
-            ArrayList<String> extraMatches = results.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
-            Uri audioUrl = recognizerIntent.getData();
-            InputStream filestream=null;
-            try {
-                filestream = contentResolver.openInputStream(audioUrl);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(filestream));
-
-            ResultCallback <DriveApi.DriveContentsResult> driveContentsCallback;
-
-
-              driveContentsCallback = new
-                    ResultCallback<DriveApi.DriveContentsResult>() {
-                        @Override
-                        public void onResult(DriveApi.DriveContentsResult result) {
-                            if (!result.getStatus().isSuccess()) {
-
-                                return;
-                            }
-                            final DriveContents driveContents = result.getDriveContents();
-
-                            // Perform I/O off the UI thread.
-                            new Thread() {
-                                @Override
-                                public void run() {
-                                    // write content to DriveContents
-                                    OutputStream outputStream = driveContents.getOutputStream();
-                                    Writer writer = new OutputStreamWriter(outputStream);
-                                    try {
-                                        while(reader.ready()) {
-                                            writer.write(reader.read());
-                                        }
-                                            writer.flush();
-                                            writer.close();
-
-                                    } catch (IOException e) {
-
-                                    }
-
-                                    MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                            .setTitle("Exer"+(Math.floor(Math.random()*1000000000))+"-"+errorCount)
-                                            .setMimeType("text/plain")
-                                            .setStarred(true).build();
-
-
-                                    // create a file on root folder
-                                    Drive.DriveApi.getRootFolder(googleApiClient)
-                                            .createFile(googleApiClient, changeSet, driveContents);
-
-                                }
-                            }.start();
-                        }
-                    };
-
-            Drive.DriveApi.newDriveContents(googleApiClient).setResultCallback(driveContentsCallback);
-
-
-            List<SpriteMove> sprites = new ArrayList<SpriteMove>();
-            List<Coordenada> coords1 = new ArrayList<Coordenada>();
-            List<Coordenada> coords2 = new ArrayList<Coordenada>();
-
-
-            coords1.add(new Coordenada(310, 230));
-            coords2.add(new Coordenada(300, 250));
-            sprites.add(new SpriteMove(coords1, canvasView.getJerry()));
-            sprites.add(new SpriteMove(coords2, canvasView.getLaranja()));
-
-
-
-            FaseFlorestaLaranja floresta = new FaseFlorestaLaranja(canvasView, BitmapFactory.
-                    decodeResource(getResources(), R.drawable.floresta));
-            canvasView.animarParteFase(floresta, sprites, new Canvas(), canvasView.getJerry());
-
-            try {
-                Thread.sleep(3500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (!state){
-
-                player = MediaPlayer.create(this,R.raw.congrats);
-                player.start();
-            }
-
-            state = true;
-            return;
-        }
-
-        else{
-        errorCount++;
-        MediaPlayer mpr =    MediaPlayer.create(this, R.raw.diga_laranja);
-        mpr.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                new AsyncTask<Void, Void, Void>(){
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        if(!LoginActivity.this.state) {
-                            fala.startListening(recognizerIntent);
-                        }
-                        return  null;
-                    }
-                }.doInBackground();
-            }
-        });
-
-
-            mpr.start();
-
-
-        }
-
 
 
     }
@@ -298,7 +186,156 @@ public class LoginActivity extends AppCompatActivity implements
                 if (resultCode == RESULT_OK) {
                     this.googleApiClient.connect();
                 }
-                break;
+
+            case SPEAK_REQUEST_CODE:{
+                Bundle bundle = data.getExtras();
+                ArrayList<String> matches = bundle.getStringArrayList(RecognizerIntent.EXTRA_RESULTS);
+
+                long interval = System.currentTimeMillis()-this.intialTime;
+                this.timeIntervals.add(interval);
+
+                if(matches.get(0).equalsIgnoreCase(KEYPHRASE1)){
+                    Uri audioUri = data.getData();
+                    ContentResolver contentResolver = getContentResolver();
+                    InputStream filestream = null;
+                    try {
+                         filestream = contentResolver.openInputStream(audioUri);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+
+                    final BufferedReader reader = new BufferedReader(new InputStreamReader(filestream));
+
+                    ResultCallback <DriveApi.DriveContentsResult> driveContentsCallback;
+
+
+                    driveContentsCallback = new
+                            ResultCallback<DriveApi.DriveContentsResult>() {
+                                @Override
+                                public void onResult(DriveApi.DriveContentsResult result) {
+                                    if (!result.getStatus().isSuccess()) {
+
+                                        return;
+                                    }
+                                    final DriveContents driveContents = result.getDriveContents();
+
+                                    // Perform I/O off the UI thread.
+                                    new Thread() {
+                                        @Override
+                                        public void run() {
+                                            // write content to DriveContents
+                                            OutputStream outputStream = driveContents.getOutputStream();
+                                            Writer writer = new OutputStreamWriter(outputStream);
+                                            try {
+                                                while(reader.ready()) {
+                                                    writer.write(reader.read());
+                                                }
+                                                writer.flush();
+                                                writer.close();
+
+                                            } catch (IOException e) {
+
+                                            }
+
+                                            String tentativeTimes="-";
+                                            for(Long l: timeIntervals){
+                                                tentativeTimes+=String.valueOf(l).concat("-");
+
+                                            }
+
+                                            tentativeTimes = tentativeTimes.substring(0,tentativeTimes.lastIndexOf('-'));
+
+                                            MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
+                                                    .setTitle("ppcn_Exer1_"+LoginActivity.this.nome+"_"+(Math.floor(Math.random()*10)+1)+"-"+tentativas+tentativeTimes)
+                                                    .setMimeType("text/plain")
+                                                    .setStarred(true).build();
+                                            // create a file on root folder
+                                            Drive.DriveApi.getRootFolder(googleApiClient)
+                                                    .createFile(googleApiClient, changeSet, driveContents);
+
+                                        }
+                                    }.start();
+                                }
+                            };
+
+                    Drive.DriveApi.newDriveContents(googleApiClient).setResultCallback(driveContentsCallback);
+
+
+                    List<SpriteMove> sprites = new ArrayList<SpriteMove>();
+                    List<Coordenada> coords1 = new ArrayList<Coordenada>();
+                    List<Coordenada> coords2 = new ArrayList<Coordenada>();
+
+
+                    coords1.add(new Coordenada(310, 230));
+                    coords2.add(new Coordenada(300, 250));
+                    sprites.add(new SpriteMove(coords1, canvasView.getJerry()));
+                    sprites.add(new SpriteMove(coords2, canvasView.getLaranja()));
+
+
+
+                    FaseFlorestaLaranja floresta = new FaseFlorestaLaranja(canvasView, BitmapFactory.
+                            decodeResource(getResources(), R.drawable.floresta));
+                    canvasView.animarParteFase(floresta, sprites, new Canvas(), canvasView.getJerry());
+
+                    try {
+                        Thread.sleep(3500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    if (!state){
+
+                        player = MediaPlayer.create(this,R.raw.congrats);
+                        player.start();
+                    }
+
+                    state = true;
+                    return;
+                }
+
+                else{
+                    tentativas++;
+                    MediaPlayer mpr =    MediaPlayer.create(this, R.raw.diga_laranja);
+                    mpr.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            new AsyncTask<Void, Void, Void>(){
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    if(!LoginActivity.this.state) {
+                                        intialTime = System.currentTimeMillis();
+                                        recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                                        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "pt");
+                                        recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
+                                                LoginActivity.this.getPackageName());
+                                        recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                                                RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
+
+
+                                        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO_FORMAT", "audio/AMR");
+                                        recognizerIntent.putExtra("android.speech.extra.GET_AUDIO", true);
+
+
+                                        recognizerIntent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 1);
+                                        startActivityForResult(recognizerIntent,SPEAK_REQUEST_CODE);
+                                    }
+                                    return  null;
+                                }
+                            }.doInBackground();
+                        }
+                    });
+
+
+                    mpr.start();
+
+
+
+
+                }
+            }
+
         }
 
     }

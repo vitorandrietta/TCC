@@ -1,0 +1,11 @@
+D:\treino_C#\Eletronics\SupplierService\bin\SupplierService.dll
+D:\treino_C#\Eletronics\SupplierService\bin\SupplierService.pdb
+D:\treino_C#\Eletronics\SupplierService\bin\Eletronicos.Data.dll
+D:\treino_C#\Eletronics\SupplierService\bin\Eletronicos.Model.dll
+D:\treino_C#\Eletronics\SupplierService\bin\Eletronics.Infrastructure.dll
+D:\treino_C#\Eletronics\SupplierService\bin\Eletronicos.Data.pdb
+D:\treino_C#\Eletronics\SupplierService\bin\Eletronicos.Model.pdb
+D:\treino_C#\Eletronics\SupplierService\bin\Eletronics.Infrastructure.pdb
+D:\treino_C#\Eletronics\SupplierService\obj\Release\SupplierService.csprojResolveAssemblyReference.cache
+D:\treino_C#\Eletronics\SupplierService\obj\Release\SupplierService.dll
+D:\treino_C#\Eletronics\SupplierService\obj\Release\SupplierService.pdb
