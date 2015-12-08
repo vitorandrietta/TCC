@@ -32,10 +32,9 @@ function montarGrafico(str, id) {
         data: content,
         xkey: 'tentativa',
         parseTime: false,
-        // A list of names of data record attributes that contain y-values.
+        
         ykeys: ['intervalo'],
-        // Labels for the ykeys -- will be displayed when you hover over the
-        // chart.
+        
         labels: ['Intervalo']
     })
 

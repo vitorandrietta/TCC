@@ -46,7 +46,7 @@ namespace ProperConvey.Controllers
                 Scopes,
                 Environment.UserName,
                 CancellationToken.None,
-                new FileDataStore("Daimto.GoogleDrive.Auth.Store")).Result;
+                new FileDataStore("ProperConvey.GoogleDrive.Auth.Store")).Result;
 
 
 
