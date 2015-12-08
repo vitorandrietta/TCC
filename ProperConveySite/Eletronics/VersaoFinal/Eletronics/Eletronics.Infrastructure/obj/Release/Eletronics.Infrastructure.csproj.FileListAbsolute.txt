@@ -1,5 +1,0 @@
-D:\treino_C#\Eletronics\Eletronics.Infrastructure\bin\Release\Eletronics.Infrastructure.dll
-D:\treino_C#\Eletronics\Eletronics.Infrastructure\bin\Release\Eletronics.Infrastructure.pdb
-D:\treino_C#\Eletronics\Eletronics.Infrastructure\obj\Release\Eletronics.Infrastructure.csprojResolveAssemblyReference.cache
-D:\treino_C#\Eletronics\Eletronics.Infrastructure\obj\Release\Eletronics.Infrastructure.dll
-D:\treino_C#\Eletronics\Eletronics.Infrastructure\obj\Release\Eletronics.Infrastructure.pdb
