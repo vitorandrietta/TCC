@@ -23,7 +23,6 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.service.carrier.CarrierMessagingService;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -33,12 +32,10 @@ import android.util.Log;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.drive.Drive;
 import com.google.android.gms.drive.DriveApi;
 import com.google.android.gms.drive.DriveContents;
-import com.google.android.gms.drive.DriveFolder;
 import com.google.android.gms.drive.MetadataChangeSet;
 
 import properconvey.com.br.properconvey.R;
@@ -47,12 +44,8 @@ import properconvey.com.br.properconvey.game.CanvasView;
 import properconvey.com.br.properconvey.game.Coordenada;
 import properconvey.com.br.properconvey.game.SpriteMove;
 
-//PocketSphinxActivity
-public class LoginActivity extends AppCompatActivity implements
+public class MainActivity extends AppCompatActivity implements
         RecognitionListener,GoogleApiClient.OnConnectionFailedListener {
-
-    /* Named searches allow to quickly reconfigure the decoder */
-    //FAZER CONTADOR SUPERIOR E TELA DE LOGIN
 
     private SpeechRecognizer fala = null;
     private Intent recognizerIntent;
@@ -77,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements
         super.onCreate(state);
         this.canvasView = new CanvasView(this);
         Intent intent = getIntent();
-        this.nome = intent.getStringExtra(FirstAcitvity.INICIO_GAME);
+        this.nome = intent.getStringExtra(LoginAcitvity.INICIO_GAME);
         setContentView(canvasView);
         getSupportActionBar().hide();
         this.timeIntervals = new ArrayList<>();
@@ -112,11 +105,11 @@ public class LoginActivity extends AppCompatActivity implements
                 new AsyncTask<Void, Void, Void>(){
                     @Override
                     protected Void doInBackground(Void... params) {
-                        if(!LoginActivity.this.state) {
+                        if(!MainActivity.this.state) {
 
                             startActivityForResult(recognizerIntent,SPEAK_REQUEST_CODE);
                             intialTime = System.currentTimeMillis();
-                            //fala.startListening(recognizerIntent);
+
                         }
                             return null;
                     }
@@ -124,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements
             }
         });
 
-        player.start(); //audio falando laranja ao invés de orange
+        player.start();
 ;
 
     }
@@ -219,11 +212,11 @@ public class LoginActivity extends AppCompatActivity implements
                                     }
                                     final DriveContents driveContents = result.getDriveContents();
 
-                                    // Perform I/O off the UI thread.
+
                                     new Thread() {
                                         @Override
                                         public void run() {
-                                            // write content to DriveContents
+
                                             OutputStream outputStream = driveContents.getOutputStream();
                                             Writer writer = new OutputStreamWriter(outputStream);
                                             try {
@@ -246,13 +239,11 @@ public class LoginActivity extends AppCompatActivity implements
                                             tentativeTimes = tentativeTimes.substring(0,tentativeTimes.lastIndexOf('-'));
 
                                             MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
-                                                    .setTitle("ppcn_Exer1_"+LoginActivity.this.nome+"_"+(Math.floor(Math.random()*10)+1)+"-"+tentativas+tentativeTimes)
+                                                    .setTitle("ppcn_Exer1_"+MainActivity.this.nome+"_"+(Math.floor(Math.random()*100)+1)+"-"+tentativas+tentativeTimes)
                                                     .setMimeType("text/plain")
                                                     .setStarred(true).build();
-                                            // create a file on root folder
-                                            Drive.DriveApi.getRootFolder(googleApiClient)
+                                             Drive.DriveApi.getRootFolder(googleApiClient)
                                                     .createFile(googleApiClient, changeSet, driveContents);
-
                                         }
                                     }.start();
                                 }
@@ -304,12 +295,12 @@ public class LoginActivity extends AppCompatActivity implements
                             new AsyncTask<Void, Void, Void>(){
                                 @Override
                                 protected Void doInBackground(Void... params) {
-                                    if(!LoginActivity.this.state) {
+                                    if(!MainActivity.this.state) {
                                         intialTime = System.currentTimeMillis();
                                         recognizerIntent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                                         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, "pt");
                                         recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,
-                                                LoginActivity.this.getPackageName());
+                                                MainActivity.this.getPackageName());
                                         recognizerIntent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                                                 RecognizerIntent.LANGUAGE_MODEL_WEB_SEARCH);
 
@@ -327,12 +318,7 @@ public class LoginActivity extends AppCompatActivity implements
                         }
                     });
 
-
                     mpr.start();
-
-
-
-
                 }
             }
 
@@ -352,7 +338,7 @@ public class LoginActivity extends AppCompatActivity implements
             try {
                 connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
             } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
+                //Nao deu para resolver o erro apropriadamente D=
             }
         } else {
             GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();

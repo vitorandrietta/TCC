@@ -2,7 +2,6 @@ package properconvey.com.br.properconvey.activities;
 
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 
 import properconvey.com.br.properconvey.R;
 
-public class FirstAcitvity extends AppCompatActivity {
+public class LoginAcitvity extends AppCompatActivity {
 
     public final static String INICIO_GAME = "6868";
 
@@ -26,10 +25,13 @@ public class FirstAcitvity extends AppCompatActivity {
         logar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText senha = (EditText) findViewById(R.id.passwordEdit);
                 EditText nome = (EditText) findViewById(R.id.nomeEdit);
-                Intent game = new Intent(FirstAcitvity.this,LoginActivity.class);
-                game.putExtra(INICIO_GAME,nome.getText().toString());
-                startActivity(game);
+                if(!senha.getText().toString().trim().isEmpty() && !nome.getText().toString().isEmpty()) {
+                    Intent game = new Intent(LoginAcitvity.this, MainActivity.class);
+                    game.putExtra(INICIO_GAME, nome.getText().toString());
+                    startActivity(game);
+                }
             }
         });
 
@@ -45,12 +47,8 @@ public class FirstAcitvity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }

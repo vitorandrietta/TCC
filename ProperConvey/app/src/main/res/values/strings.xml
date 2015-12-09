@@ -6,7 +6,7 @@
     <string name="forecast_caption">To try recognition of a weather forecast like \"sunny spells on Wednesday\".</string>
     <string name="phone_caption">To try phonetic recognition say anything.</string>
     <string name="title_activity_teste">TesteActivity</string>
-    <string name="title_activity_first_acitvity">FirstAcitvity</string>
+    <string name="title_activity_first_acitvity">Pocket Sphinx</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
